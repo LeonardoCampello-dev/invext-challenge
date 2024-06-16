@@ -17,6 +17,6 @@ public record OpenTicketDTO(
     @NotEmpty(message = "Descrição obrigatória") String description,
 
     @ApiModelProperty(value = "Id do cliente", required = true, example = "1")
-    @NotNull(message = "Identificador do cliente não informado") Integer customerId
+    @NotNull(message = "Identificador do cliente não informado") String customerId
 ) {
 }
