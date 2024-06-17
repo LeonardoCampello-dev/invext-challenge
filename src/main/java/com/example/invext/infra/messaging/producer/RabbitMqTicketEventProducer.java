@@ -20,8 +20,6 @@ public class RabbitMqTicketEventProducer implements ITicketEventProducer {
             .getId()
             .toString()
     );
-
-    System.out.println("Ticket enfileirado");
   }
 
   @Override
@@ -30,7 +28,9 @@ public class RabbitMqTicketEventProducer implements ITicketEventProducer {
   ) {
     rabbitTemplate.convertAndSend(
         RabbitMQConfig.TICKET_QUEUE_NAME,
-        ticket.getId().toString(),
+        ticket
+            .getId()
+            .toString(),
         message -> {
           message
               .getMessageProperties()
@@ -41,7 +41,5 @@ public class RabbitMqTicketEventProducer implements ITicketEventProducer {
           return message;
         }
     );
-
-    System.out.println("Ticket enfileirado novamente com prioridade maior");
   }
 }

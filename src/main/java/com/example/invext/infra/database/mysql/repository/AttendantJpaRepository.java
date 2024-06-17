@@ -13,9 +13,9 @@ import java.util.Optional;
 public interface AttendantJpaRepository extends JpaRepository<AttendantJpaEntity, Integer> {
 
   @Query("SELECT a FROM AttendantJpaEntity a WHERE a.department = :department AND " +
-      "(SELECT COUNT(t) FROM a.ticketList t WHERE t.status = 'OPEN') < :lessThan")
-  Optional<AttendantJpaEntity> findByDepartmentAndNumberOfTicketsLessThan(
-      @Param("department") Department department,
-      @Param("lessThan") Integer lessThan
+      "(SELECT COUNT(t) FROM TicketJpaEntity t WHERE t.assignee = a AND t.status = 'IN_PROGRESS') < 3 " +
+      "ORDER BY a.id ASC")
+  Optional<AttendantJpaEntity> findFirstByDepartmentAndNumberOfTicketsLessThanThree(
+      @Param("department") Department department
   );
 }

@@ -6,8 +6,7 @@ import com.example.invext.domain.customerservicecenter.enumeration.Department;
 import java.util.Optional;
 
 public interface IAttendantRepository {
-  Optional<Attendant> findByDepartmentAndNumberOfTicketsLessThan(
-      Department department,
-      Integer lessThan
+  Optional<Attendant> findFirstByDepartmentAndNumberOfTicketsLessThanThree(
+      Department department
   );
 }

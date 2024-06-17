@@ -21,14 +21,10 @@ public class MySqlAttendantRepository implements IAttendantRepository {
 
 
   @Override
-  public Optional<Attendant> findByDepartmentAndNumberOfTicketsLessThan(
-      Department department,
-      Integer lessThan
+  public Optional<Attendant> findFirstByDepartmentAndNumberOfTicketsLessThanThree(
+      Department department
   ) {
-    Optional<AttendantJpaEntity> entity = attendantJpaRepository.findByDepartmentAndNumberOfTicketsLessThan(
-        department,
-        lessThan
-    );
+    Optional<AttendantJpaEntity> entity = attendantJpaRepository.findFirstByDepartmentAndNumberOfTicketsLessThanThree(department);
 
     if (entity.isEmpty()) return Optional.empty();
     else return Optional.of(attendantDataMapper.toDomain(entity.get()));

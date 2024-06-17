@@ -15,10 +15,6 @@ public class TicketConsumer {
 
   @RabbitListener(queues = RabbitMQConfig.TICKET_QUEUE_NAME)
   public void handleTicket(String ticketId) {
-    System.out.println("handleTicket");
-    System.out.println(ticketId);
-    System.out.println(Integer.valueOf(ticketId));
-
     useCase.execute(Integer.valueOf(ticketId));
   }
 }

@@ -32,6 +32,7 @@ public class TicketController {
           .notFound()
           .build();
     } else {
+      // TODO Correto seria retornar um DTO
       return ResponseEntity.ok(result);
     }
   }

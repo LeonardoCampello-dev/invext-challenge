@@ -35,6 +35,8 @@ public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCase {
       ticket
           .get()
           .linkAttendant(attendant.get());
+
+      this.ticketRepository.save(ticket.get());
     } else {
       ticketEventProducer.enqueueTicketWithPriority(ticket.get());
     }

@@ -16,9 +16,6 @@ public class TicketOpeningService {
   private final IAttendantRepository attendantRepository;
 
   public Optional<Attendant> findAvailableAttendant(Department department) {
-    return attendantRepository.findByDepartmentAndNumberOfTicketsLessThan(
-        department,
-        3
-    );
+    return attendantRepository.findFirstByDepartmentAndNumberOfTicketsLessThanThree(department);
   }
 }
