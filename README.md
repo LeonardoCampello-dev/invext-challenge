@@ -2,7 +2,7 @@
 
 ## Como rodar
 
-- Execute a classe **InvextApplication** e automaticamente os containers do MySQL e RabbitMQ
+- Execute a classe **InvextApplication** e automaticamente os containers do MySQL e RabbitMQ vão subir
 
 ## Como testar
 
