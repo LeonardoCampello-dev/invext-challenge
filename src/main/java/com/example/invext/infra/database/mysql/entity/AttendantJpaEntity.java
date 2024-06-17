@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Entity(name = "Attendant")
+@Entity()
 @Table(name = "attendant")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 public class AttendantJpaEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
   @Column(nullable = false)
   private String name;

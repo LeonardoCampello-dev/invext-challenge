@@ -9,7 +9,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class Attendant {
-  private String id;
+  private Integer id;
   private String name;
   private String email;
   private Department department;

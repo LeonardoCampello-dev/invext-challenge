@@ -1,7 +1,5 @@
 package com.example.invext.infra.database.mysql.entity;
 
-import com.example.invext.domain.customerservicecenter.entity.Attendant;
-import com.example.invext.domain.customerservicecenter.entity.Customer;
 import com.example.invext.domain.customerservicecenter.enumeration.Department;
 import com.example.invext.domain.customerservicecenter.enumeration.TicketStatus;
 import jakarta.persistence.*;
@@ -20,8 +18,8 @@ import java.time.LocalDateTime;
 @Getter
 public class TicketJpaEntity {
   @Id
-  @GeneratedValue(strategy = GenerationType.UUID)
-  private String id;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Integer id;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)

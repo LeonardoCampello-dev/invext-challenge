@@ -5,5 +5,5 @@ import com.example.invext.domain.customerservicecenter.entity.Customer;
 import java.util.Optional;
 
 public interface ICustomerRepository {
-  Optional<Customer> findById(String id);
+  Optional<Customer> findById(Integer id);
 }

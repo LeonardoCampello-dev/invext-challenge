@@ -1,7 +1,6 @@
 package com.example.invext.infra.messaging.consumer;
 
 import com.example.invext.application.usecase.ticket.AttemptLinkTicketToAvailableAttendantWithPriorityUseCase;
-import com.example.invext.domain.customerservicecenter.entity.Ticket;
 import com.example.invext.infra.configuration.RabbitMQConfig;
 import lombok.AllArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -15,7 +14,11 @@ public class TicketConsumer {
   private final AttemptLinkTicketToAvailableAttendantWithPriorityUseCase useCase;
 
   @RabbitListener(queues = RabbitMQConfig.TICKET_QUEUE_NAME)
-  public void handleTicket(Ticket ticket) {
-    useCase.execute(ticket);
+  public void handleTicket(String ticketId) {
+    System.out.println("handleTicket");
+    System.out.println(ticketId);
+    System.out.println(Integer.valueOf(ticketId));
+
+    useCase.execute(Integer.valueOf(ticketId));
   }
 }

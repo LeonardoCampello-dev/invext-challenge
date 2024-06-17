@@ -4,6 +4,7 @@ import com.example.invext.application.contract.ITicketEventProducer;
 import com.example.invext.domain.customerservicecenter.entity.Attendant;
 import com.example.invext.domain.customerservicecenter.entity.Ticket;
 import com.example.invext.domain.customerservicecenter.enumeration.Department;
+import com.example.invext.domain.customerservicecenter.repository.ITicketRepository;
 import com.example.invext.domain.customerservicecenter.service.TicketOpeningService;
 import com.github.javafaker.Faker;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,6 +27,9 @@ public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCaseTest {
 
   @Mock
   private ITicketEventProducer ticketEventProducer;
+
+  @Mock
+  private ITicketRepository ticketRepository;
 
   @InjectMocks
   private AttemptLinkTicketToAvailableAttendantWithPriorityUseCase useCase;
@@ -51,9 +55,7 @@ public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCaseTest {
     );
 
     Attendant attendant = new Attendant(
-        UUID
-            .randomUUID()
-            .toString(),
+        1,
         faker
             .name()
             .fullName(),
@@ -64,9 +66,14 @@ public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCaseTest {
         null
     );
 
-    when(ticketOpeningService.findAvailableAttendant(ticket.getDepartment())).thenReturn(Optional.of(attendant));
+    Integer ticketId = faker
+        .number()
+        .randomDigit();
 
-    useCase.execute(ticket);
+    when(ticketOpeningService.findAvailableAttendant(ticket.getDepartment())).thenReturn(Optional.of(attendant));
+    when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket));
+
+    useCase.execute(ticketId);
 
     assertEquals(
         attendant,
@@ -92,9 +99,14 @@ public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCaseTest {
         null
     );
 
-    when(ticketOpeningService.findAvailableAttendant(ticket.getDepartment())).thenReturn(Optional.empty());
+    Integer ticketId = faker
+        .number()
+        .randomDigit();
 
-    useCase.execute(ticket);
+    when(ticketOpeningService.findAvailableAttendant(ticket.getDepartment())).thenReturn(Optional.empty());
+    when(ticketRepository.findById(ticketId)).thenReturn(Optional.of(ticket));
+
+    useCase.execute(ticketId);
 
     assertNull(ticket.getAssignee());
 

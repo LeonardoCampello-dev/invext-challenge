@@ -20,7 +20,7 @@ public class MySqlCustomerRepository implements ICustomerRepository {
 
 
   @Override
-  public Optional<Customer> findById(String id) {
+  public Optional<Customer> findById(Integer id) {
     Optional<CustomerJpaEntity> entity = customerJpaRepository.findById(id);
 
     if (entity.isEmpty()) return Optional.empty();

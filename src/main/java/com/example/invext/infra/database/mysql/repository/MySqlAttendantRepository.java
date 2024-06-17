@@ -7,11 +7,11 @@ import com.example.invext.infra.database.mysql.datamapper.AttendantDataMapper;
 import com.example.invext.infra.database.mysql.entity.AttendantJpaEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
-@Repository
+@Component
 @AllArgsConstructor
 public class MySqlAttendantRepository implements IAttendantRepository {
   @Autowired

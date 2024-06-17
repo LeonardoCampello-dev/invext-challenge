@@ -4,14 +4,17 @@ import com.example.invext.domain.customerservicecenter.enumeration.Department;
 import com.example.invext.domain.customerservicecenter.enumeration.TicketStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 
 @Getter
 @AllArgsConstructor
-public class Ticket {
-  private String id;
+@ToString
+public class Ticket implements Serializable {
+  private Integer id;
 
   private Department department;
   private TicketStatus status;

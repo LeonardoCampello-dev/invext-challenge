@@ -1,7 +1,9 @@
 package com.example.invext.infra.database.mysql.datamapper;
 
+import com.example.invext.domain.customerservicecenter.entity.Attendant;
 import com.example.invext.domain.customerservicecenter.entity.Ticket;
 import com.example.invext.infra.contract.IDataMapper;
+import com.example.invext.infra.database.mysql.entity.AttendantJpaEntity;
 import com.example.invext.infra.database.mysql.entity.TicketJpaEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,12 @@ public class TicketDataMapper implements IDataMapper<Ticket, TicketJpaEntity> {
 
   @Override
   public Ticket toDomain(TicketJpaEntity ticketJpaEntity) {
+    Attendant assigne = null;
+
+    if (ticketJpaEntity.getAssignee() != null) {
+      assigne = attendantDataMapper.toDomain(ticketJpaEntity.getAssignee());
+    }
+
     return new Ticket(
         ticketJpaEntity.getId(),
         ticketJpaEntity.getDepartment(),
@@ -26,7 +34,7 @@ public class TicketDataMapper implements IDataMapper<Ticket, TicketJpaEntity> {
         ticketJpaEntity.getCreatedAt(),
         ticketJpaEntity.getUpdatedAt(),
         ticketJpaEntity.getClosedAt(),
-        attendantDataMapper.toDomain(ticketJpaEntity.getAssignee()),
+        assigne,
         customerDataMapper.toDomain(ticketJpaEntity.getCustomer())
 
     );
@@ -34,6 +42,12 @@ public class TicketDataMapper implements IDataMapper<Ticket, TicketJpaEntity> {
 
   @Override
   public TicketJpaEntity toEntity(Ticket ticket) {
+    AttendantJpaEntity assigne = null;
+
+    if (ticket.getAssignee() != null) {
+      assigne = attendantDataMapper.toEntity(ticket.getAssignee());
+    }
+
     return new TicketJpaEntity(
         ticket.getId(),
         ticket.getDepartment(),
@@ -43,7 +57,7 @@ public class TicketDataMapper implements IDataMapper<Ticket, TicketJpaEntity> {
         ticket.getCreatedAt(),
         ticket.getUpdatedAt(),
         ticket.getClosedAt(),
-        attendantDataMapper.toEntity(ticket.getAssignee()),
+        assigne,
         customerDataMapper.toEntity(ticket.getCustomer())
     );
   }

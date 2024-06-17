@@ -17,6 +17,8 @@ public class RabbitMqTicketEventProducer implements ITicketEventProducer {
     rabbitTemplate.convertAndSend(
         RabbitMQConfig.TICKET_QUEUE_NAME,
         ticket
+            .getId()
+            .toString()
     );
 
     System.out.println("Ticket enfileirado");
@@ -28,7 +30,7 @@ public class RabbitMqTicketEventProducer implements ITicketEventProducer {
   ) {
     rabbitTemplate.convertAndSend(
         RabbitMQConfig.TICKET_QUEUE_NAME,
-        ticket,
+        ticket.getId().toString(),
         message -> {
           message
               .getMessageProperties()

@@ -6,8 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class InvextApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(InvextApplication.class, args);
-	}
+  public static void main(String[] args) {
+    SpringApplication.run(
+        InvextApplication.class,
+        args
+    );
+  }
 
 }

@@ -5,12 +5,15 @@ import com.example.invext.infra.database.mysql.entity.AttendantJpaEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface AttendantJpaRepository extends JpaRepository<AttendantJpaEntity, String> {
+@Repository
+public interface AttendantJpaRepository extends JpaRepository<AttendantJpaEntity, Integer> {
 
-  @Query("SELECT a FROM Attendant a WHERE a.department = :department AND SIZE(a.ticketList) < :lessThan")
+  @Query("SELECT a FROM AttendantJpaEntity a WHERE a.department = :department AND " +
+      "(SELECT COUNT(t) FROM a.ticketList t WHERE t.status = 'OPEN') < :lessThan")
   Optional<AttendantJpaEntity> findByDepartmentAndNumberOfTicketsLessThan(
       @Param("department") Department department,
       @Param("lessThan") Integer lessThan

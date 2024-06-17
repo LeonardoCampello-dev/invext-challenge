@@ -1,5 +1,5 @@
 CREATE TABLE attendant (
-  id VARCHAR(255) NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
    name VARCHAR(255) NOT NULL,
    email VARCHAR(255) NOT NULL,
    department VARCHAR(255) NOT NULL,
@@ -7,14 +7,14 @@ CREATE TABLE attendant (
 );
 
 CREATE TABLE customer (
-  id VARCHAR(255) NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
    name VARCHAR(255) NOT NULL,
    email VARCHAR(255) NOT NULL,
    CONSTRAINT pk_customer PRIMARY KEY (id)
 );
 
 CREATE TABLE ticket (
-  id VARCHAR(255) NOT NULL,
+  id INT AUTO_INCREMENT NOT NULL,
    department VARCHAR(255) NOT NULL,
    status VARCHAR(255) NOT NULL,
    title VARCHAR(255) NOT NULL,
@@ -22,8 +22,8 @@ CREATE TABLE ticket (
    created_at datetime NOT NULL,
    updated_at datetime NULL,
    closed_at datetime NULL,
-   assignee_id VARCHAR(255) NULL,
-   customer_id VARCHAR(255) NOT NULL,
+   assignee_id INT NULL,
+   customer_id INT NOT NULL,
    CONSTRAINT pk_ticket PRIMARY KEY (id)
 );
 

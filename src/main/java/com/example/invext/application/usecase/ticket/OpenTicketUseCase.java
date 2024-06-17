@@ -33,7 +33,10 @@ public class OpenTicketUseCase {
     Optional<Customer> customer = customerRepository.findById(dto.customerId());
 
     // TODO tratar para retornar resultado negativo
-    if (!customer.isPresent()) return null;
+    if (!customer.isPresent()) {
+      return null;
+    }
+
 
     Ticket ticket = new Ticket(
         dto.department(),
@@ -44,14 +47,19 @@ public class OpenTicketUseCase {
 
     Optional<Attendant> attendant = this.ticketOpeningService.findAvailableAttendant(ticket.getDepartment());
 
+    Ticket saved;
+
     if (attendant.isPresent()) {
       ticket.linkAttendant(attendant.get());
+
+      saved = ticketRepository.save(ticket);
     } else {
-      ticketEventProducer.enqueueTicket(ticket);
+      saved = ticketRepository.save(ticket);
+
+      ticketEventProducer.enqueueTicket(saved);
     }
 
-    ticketRepository.save(ticket);
 
-    return ticket;
+    return saved;
   }
 }

@@ -3,6 +3,7 @@ package com.example.invext.application.usecase.ticket;
 import com.example.invext.application.contract.ITicketEventProducer;
 import com.example.invext.domain.customerservicecenter.entity.Attendant;
 import com.example.invext.domain.customerservicecenter.entity.Ticket;
+import com.example.invext.domain.customerservicecenter.repository.ITicketRepository;
 import com.example.invext.domain.customerservicecenter.service.TicketOpeningService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +15,28 @@ import java.util.Optional;
 @AllArgsConstructor
 public class AttemptLinkTicketToAvailableAttendantWithPriorityUseCase {
   @Autowired
-  private TicketOpeningService ticketOpeningService;
+  private final TicketOpeningService ticketOpeningService;
   @Autowired
-  private ITicketEventProducer ticketEventProducer;
+  private final ITicketEventProducer ticketEventProducer;
+  @Autowired
+  private final ITicketRepository ticketRepository;
 
-  public void execute(Ticket ticket) {
-    Optional<Attendant> attendant = ticketOpeningService.findAvailableAttendant(ticket.getDepartment());
+  public void execute(Integer ticketId) {
+    Optional<Ticket> ticket = ticketRepository.findById(ticketId);
+
+    // TODO poderia adicionar algum tratamento
+    if (ticket.isEmpty()) return;
+
+    Optional<Attendant> attendant = ticketOpeningService.findAvailableAttendant(ticket
+                                                                                    .get()
+                                                                                    .getDepartment());
 
     if (attendant.isPresent()) {
-      ticket.linkAttendant(attendant.get());
+      ticket
+          .get()
+          .linkAttendant(attendant.get());
     } else {
-      ticketEventProducer.enqueueTicketWithPriority(ticket);
+      ticketEventProducer.enqueueTicketWithPriority(ticket.get());
     }
   }
 }

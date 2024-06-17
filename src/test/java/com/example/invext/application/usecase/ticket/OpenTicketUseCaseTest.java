@@ -18,7 +18,6 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -57,15 +56,11 @@ public class OpenTicketUseCaseTest {
         faker
             .lorem()
             .paragraph(),
-        UUID
-            .randomUUID()
-            .toString()
+        1
     );
 
     Customer customer = new Customer(
-        UUID
-            .randomUUID()
-            .toString(),
+        1,
         faker
             .name()
             .fullName(),
@@ -76,9 +71,7 @@ public class OpenTicketUseCaseTest {
     );
 
     Attendant attendant = new Attendant(
-        UUID
-            .randomUUID()
-            .toString(),
+        1,
         faker
             .name()
             .fullName(),
@@ -89,8 +82,18 @@ public class OpenTicketUseCaseTest {
         new ArrayList<>()
     );
 
+    Ticket ticket = new Ticket(
+        dto.department(),
+        dto.title(),
+        dto.description(),
+        customer
+    );
+
+    ticket.linkAttendant(attendant);
+
     when(customerRepository.findById(dto.customerId())).thenReturn(Optional.of(customer));
     when(ticketOpeningService.findAvailableAttendant(dto.department())).thenReturn(Optional.of(attendant));
+    when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
 
     Ticket createdTicket = openTicketUseCase.execute(dto);
 
@@ -124,7 +127,7 @@ public class OpenTicketUseCaseTest {
     verify(
         ticketRepository,
         times(1)
-    ).save(createdTicket);
+    ).save(any(Ticket.class));
 
     verify(
         ticketEventProducer,
@@ -142,15 +145,11 @@ public class OpenTicketUseCaseTest {
         faker
             .lorem()
             .paragraph(),
-        UUID
-            .randomUUID()
-            .toString()
+        1
     );
 
     Customer customer = new Customer(
-        UUID
-            .randomUUID()
-            .toString(),
+        1,
         faker
             .name()
             .fullName(),
@@ -160,8 +159,16 @@ public class OpenTicketUseCaseTest {
         new ArrayList<>()
     );
 
+    Ticket ticket = new Ticket(
+        dto.department(),
+        dto.title(),
+        dto.description(),
+        customer
+    );
+
     when(customerRepository.findById(dto.customerId())).thenReturn(Optional.of(customer));
     when(ticketOpeningService.findAvailableAttendant(dto.department())).thenReturn(Optional.empty());
+    when(ticketRepository.save(any(Ticket.class))).thenReturn(ticket);
 
     Ticket createdTicket = openTicketUseCase.execute(dto);
 
@@ -192,11 +199,11 @@ public class OpenTicketUseCaseTest {
     verify(
         ticketRepository,
         times(1)
-    ).save(createdTicket);
+    ).save(any(Ticket.class));
 
     verify(
         ticketEventProducer,
         times(1)
-    ).enqueueTicket(createdTicket);
+    ).enqueueTicket(any(Ticket.class));
   }
 }
